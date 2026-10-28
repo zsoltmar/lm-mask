@@ -105,7 +105,7 @@
       this.inf.mesh.position.copy(a.clone().add(b).multiplyScalar(0.5)).multiplyScalar(-1);
       this.rig.visible = false;
       scene.add(this.rig);
-      this.wiz = null; // built on first use
+      this.merlin = null; // built on first use
 
       this.maskRT = new THREE.WebGLRenderTarget(this.W, this.H, {
         samples: 4, type: THREE.HalfFloatType, generateMipmaps: true,
@@ -173,15 +173,15 @@
     }
 
     setCharacter(name) {
-      this.opts.character = name === 'wizard' ? 'wizard' : 'lm';
-      if (this.opts.character === 'wizard' && !this.wiz) {
-        this.wiz = window.LMWizard.build();
-        this.wiz.head.visible = false;
-        this.scene.add(this.wiz.head);
+      this.opts.character = name === 'merlin' ? 'merlin' : 'lm';
+      if (this.opts.character === 'merlin' && !this.merlin) {
+        this.merlin = window.LMMerlin.build();
+        this.merlin.head.visible = false;
+        this.scene.add(this.merlin.head);
       }
-      // soft shadows (hat brim and glasses onto the head) only matter for the wizard
-      this.renderer.shadowMap.enabled = this.opts.character === 'wizard';
-      this.key.castShadow = this.opts.character === 'wizard';
+      // soft shadows (hat brim and glasses onto the head) only matter for Merlin
+      this.renderer.shadowMap.enabled = this.opts.character === 'merlin';
+      this.key.castShadow = this.opts.character === 'merlin';
     }
 
     // Average colour of the camera image → a gentle tint on the lights so the character sits in the room.
@@ -228,8 +228,8 @@
       this.rig.updateMatrixWorld(true);
     }
 
-    placeWizard(state, pop) {
-      const w = this.wiz;
+    placeMerlin(state, pop) {
+      const w = this.merlin;
       if (state && state.present) {
         const D = this.focal / Math.max(8, state.iod); // 1 unit = your eye spacing
         w.head.position.copy(this.rayPoint(state.mid[0], state.mid[1], D));
@@ -247,7 +247,7 @@
 
     render(state, scare, t, dt) {
       const U = this.compMat.uniforms;
-      const wizard = this.opts.character === 'wizard';
+      const merlin = this.opts.character === 'merlin';
       const target = state && state.present ? 1 : 0;
       this.vis += (target - this.vis) * (1 - Math.exp(-dt / (target ? 0.08 : 0.25)));
       // scare progress: grows quickly while the scare is held, runs backwards on release
@@ -261,21 +261,21 @@
       const pop = 1 + 0.08 * Math.exp(-since * 9) * Math.cos(since * 22) * (scare.on ? 1 : 0) + 0.035 * ease;
 
       this.rig.visible = false;
-      if (this.wiz) this.wiz.head.visible = false;
+      if (this.merlin) this.merlin.head.visible = false;
       let mouthDst;
-      if (wizard) {
-        this.placeWizard(state, pop);
-        this.wiz.expression(state, dt);
-        mouthDst = this.toPx(this.wiz.mouth.clone().applyMatrix4(this.wiz.head.matrixWorld));
-        this.wiz.setDark(ease, t);
+      if (merlin) {
+        this.placeMerlin(state, pop);
+        this.merlin.expression(state, dt);
+        mouthDst = this.toPx(this.merlin.mouth.clone().applyMatrix4(this.merlin.head.matrixWorld));
+        this.merlin.setDark(ease, t);
       } else {
         this.placeLM(state, pop);
         mouthDst = this.project(...ANCHORS.mouth);
       }
 
       // overlay: eye slits / big mouth (normal), black eyes and mouth (scare)
-      const useArt = !wizard && !!this.art;
-      this.overlay.draw(state, { on: !wizard && visual, p: ease, art: useArt }, (x, y) => this.project(x, y), { mid: MID, span: SPAN }, mouthDst, { character: this.opts.character });
+      const useArt = !merlin && !!this.art;
+      this.overlay.draw(state, { on: !merlin && visual, p: ease, art: useArt }, (x, y) => this.project(x, y), { mid: MID, span: SPAN }, mouthDst, { character: this.opts.character });
       this.overlayTex.needsUpdate = true;
       const patch = this.overlay.patch;
       if (patch) { U.uPatch.value.set(patch.src[0], patch.src[1], patch.dst[0], patch.dst[1]); U.uPatchScale.value = patch.scale; }
@@ -303,18 +303,18 @@
         this.art.clear(this.renderer);
       }
 
-      // wizard effects: laser eyes + lightning from under the glasses
+      // Merlin effects: laser eyes + lightning from under the glasses
       let fxOn = 0;
-      if (wizard && visual && state && state.present) {
-        const H = this.wiz.head, M = H.matrixWorld;
-        const lenses = this.wiz.lensCenters.map((c) => this.toPx(c.clone().applyMatrix4(M)));
-        const ends = this.wiz.lensCenters.map((c, i) => {
+      if (merlin && visual && state && state.present) {
+        const H = this.merlin.head, M = H.matrixWorld;
+        const lenses = this.merlin.lensCenters.map((c) => this.toPx(c.clone().applyMatrix4(M)));
+        const ends = this.merlin.lensCenters.map((c, i) => {
           const dir = new THREE.Vector3(i === 0 ? -0.22 : 0.22, -0.32, 1).normalize();
           const len = Math.min(6.5, (-H.position.z - 1.2) * 0.9);
           return this.toPx(c.clone().add(dir.multiplyScalar(len)).applyMatrix4(M));
         });
-        const bottoms = this.wiz.lensBottoms.map((pts) => pts.map((q) => this.toPx(q.clone().applyMatrix4(M))));
-        this.overlay.drawWizardFx({ lenses, ends, bottoms, iod: state.iod, k: ease, t });
+        const bottoms = this.merlin.lensBottoms.map((pts) => pts.map((q) => this.toPx(q.clone().applyMatrix4(M))));
+        this.overlay.drawMerlinFx({ lenses, ends, bottoms, iod: state.iod, k: ease, t });
         this.fxTex.needsUpdate = true;
         fxOn = 1;
       } else if (this.overlay.clearFx()) {
@@ -327,7 +327,7 @@
       const s = ease;
       this.key.color.copy(tint);
       this.fill.color.copy(tint).multiply(new THREE.Color(0xdfe8ff));
-      if (wizard) {
+      if (merlin) {
         this.key.intensity = 2.5 * (1 - 0.85 * s);
         this.fill.color.set(0xb9a6ff); this.fill.intensity = 0.9 * (1 - s);
         this.scareLight.color.set(0x8f7bff); this.scareLight.intensity = 2.6 * s;
@@ -360,11 +360,11 @@
 
       U.uVis.value = this.vis;
       U.uScare.value = s;
-      U.uHoles.value = wizard ? 1 : visual ? 0 : 1;
+      U.uHoles.value = merlin ? 1 : visual ? 0 : 1;
       U.uFx.value = fxOn;
       U.uFlash.value = scare.on ? Math.max(0, 0.8 - since * 7.0) : 0;
       if (this.kickPending) { this.kickAt = t; this.kickPending = false; }
-      const kick = !wizard && p > 0.5 ? 0.4 * Math.max(0, 1 - (t - (this.kickAt ?? -10)) / 0.09) : 0;
+      const kick = !merlin && p > 0.5 ? 0.4 * Math.max(0, 1 - (t - (this.kickAt ?? -10)) / 0.09) : 0;
       const shake = Math.max(scare.on ? Math.max(0, 1 - since / 0.35) : 0, kick);
       U.uShake.value.set((Math.random() - 0.5) * 26 * shake, (Math.random() - 0.5) * 18 * shake);
       r.render(this.quadScene, this.quadCam);

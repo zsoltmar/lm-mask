@@ -166,7 +166,7 @@
       const upd = (k, v) => { if (base[k] === null) base[k] = v; else if (v < base[k] * 1.12) base[k] += (v - base[k]) * 0.01; };
       upd(A.base, earA); upd(B.base, earB);
       const wideRatio = ((earA / base[A.base]) + (earB / base[B.base])) / 2;
-      // per-eye expression for the wizard's glasses: openness (1 = relaxed) and brow raise (eye spans,
+      // per-eye expression for Merlin's glasses: openness (1 = relaxed) and brow raise (eye spans,
       // relative to your own resting brow), split into inner and outer ends of the brow
       const iod2 = Math.max(1, Math.hypot(eA.center[0] - eB.center[0], eA.center[1] - eB.center[1]));
       const up = [Math.sin(roll2d), -Math.cos(roll2d)]; // face "up" in image space

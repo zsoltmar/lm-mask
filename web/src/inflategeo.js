@@ -1,6 +1,6 @@
 // Generic "inflate a 2D shape" mesher: chambers (signed-distance functions in a 2D plane, x right,
 // y down) get puffy height profiles, the max of the profiles is the front surface, a thinner back
-// closes the solid, and surface nets polygonise it. Used for the wizard's bomber jacket and collar.
+// closes the solid, and surface nets polygonise it. Was used for Merlin's bomber jacket (dropped); not part of the build.
 (function (THREE) {
   'use strict';
 

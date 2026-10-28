@@ -3,7 +3,7 @@
 Two characters (switch with the **Character** control or **C**):
 
 - **LM Logo** — your head becomes an inflatable LM logo. Your real eyes peek through slits in the two middle fingers that open and close with your eyelids, and your real mouth becomes a giant mouth on the swoosh. The scare turns the logo glossy black and covers your eyes and mouth; the scare face (`assets/scare-face.png`) grows out from them in white, its eyes on your eyes and its mouth on your mouth. The face stays alive: its eyes squash when you blink or squint, and its fangs lengthen as you open your mouth wider. **I** inverts it (white logo, black face) instantly, so you can strobe between the two.
-- **Wizard** — you become the mascot: a soft lavender head, a glossy starry wizard hat with a floppy tip, gold aviators over your eyes and your real mouth where its smile is. The scare turns it into a dark wizard with laser eyes and lightning crackling out from under the glasses.
+- **Merlin** — you become the mascot: a soft lavender head, a glossy starry hat with a floppy tip, gold aviators over your eyes and your real mouth where his smile is. The scare turns him into Dark Merlin, with laser eyes and lightning crackling out from under the glasses.
 
 The scare starts when you open your mouth **and** your eyes wide, plays in quickly, holds for as long as you keep your mouth open, and plays backwards when you close it. Holding **S** does the same.
 
@@ -27,7 +27,7 @@ macOS asks once for Screen Recording permission for OBS — allow it and restart
 
 | Control | What it does |
 | --- | --- |
-| Character (**C**) | LM Logo or Wizard. |
+| Character (**C**) | LM Logo or Merlin. |
 | Mirror (**M**) | Mirror the picture. The logo always reads correctly. |
 | Mouth size | How big the cartoon mouth is (default 2.15×). |
 | Edge softness | How softly the eye and mouth cut-outs blend into the character. |
@@ -43,7 +43,7 @@ macOS asks once for Screen Recording permission for OBS — allow it and restart
 ```
 web/
   src/            svgpath.js  mark geometry · env.js  studio lighting · inflate.js  inflatable mesh
-                  wizard.js  the mascot · scareart.js  warped scare face
+                  merlin.js  Merlin, the mascot · scareart.js  warped scare face
                   face.js  tracking + scare trigger · overlay.js  eye/mouth/demon layers
                   render.js  3D + composite · app.js  camera/MediaPipe/UI · ui.css · body.html
   vendor/         three.js r170, MediaPipe tasks-vision 0.10.18 (+ wasm, face_landmarker.task)

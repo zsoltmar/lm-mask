@@ -1,13 +1,13 @@
 # LM Mask
 
-A Halloween face filter for video calls. Your head becomes the inflatable LM logo (or the wizard mascot), your real eyes and mouth come along for the ride, and when you open your mouth and eyes wide it turns into a scare.
+A Halloween face filter for video calls. Your head becomes the inflatable LM logo (or Merlin, the mascot), your real eyes and mouth come along for the ride, and when you open your mouth and eyes wide it turns into a scare.
 
 **Open it:** the live page is linked under **About** at the top right of this repo (GitHub Pages). Use Google Chrome on a computer with a webcam. Everything runs in your browser: the camera picture never leaves your computer.
 
 ## Characters
 
 - **LM Logo** — an inflatable LM logo with your eyes peeking through the two middle fingers and your mouth, giant, on the swoosh. The scare turns the logo black and grows a white demon face out of your eyes and mouth; it blinks and gapes with you. Press **I** to invert it (white logo, black face) — tap it fast to strobe.
-- **Wizard** — a lavender wizard with a starry hat, aviators that react to your eyes and brows, and your real mouth. The scare turns it into a dark wizard with laser eyes and lightning.
+- **Merlin** — lavender skin, a starry hat, aviators that react to your eyes and brows, and your real mouth. The scare turns him into Dark Merlin, with laser eyes and lightning.
 
 ## Put it in Zoom
 

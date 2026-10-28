@@ -14,6 +14,7 @@
   const DEFAULTS = { character: 'lm', mirror: true, mouthScale: 2.15, eyeScale: 1.2, soft: 0.5, thMouth: 0.55, thEyes: 0.45, mouthOnly: false, invertScare: false, camera: '' };
   let S = { ...DEFAULTS };
   try { S = { ...DEFAULTS, ...JSON.parse(localStorage.getItem('lmmask.settings.v2') || '{}') }; } catch (e) { /* private mode */ }
+  if (S.character === 'wizard') S.character = 'merlin'; // saved before the rename
   if (window.STILL_CHAR) S.character = window.STILL_CHAR; // look-dev
   if (window.STILL_INVERT !== undefined) S.invertScare = !!window.STILL_INVERT; // look-dev
   const save = () => { try { localStorage.setItem('lmmask.settings.v2', JSON.stringify(S)); } catch (e) { /* ignore */ } };
@@ -89,7 +90,7 @@
       // invert the scare colours; key repeat is allowed, so holding I strobes
       else if (k === 'i') { S.invertScare = !S.invertScare; applySettings(); if (!e.repeat) save(); }
       else if (k === 'h') toggleClean();
-      else if (k === 'c') { S.character = S.character === 'lm' ? 'wizard' : 'lm'; applySettings(); save(); }
+      else if (k === 'c') { S.character = S.character === 'lm' ? 'merlin' : 'lm'; applySettings(); save(); }
       else if (k === 'm') { S.mirror = !S.mirror; $('mirror').checked = S.mirror; applySettings(); save(); }
       else if (k === 'f') { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen().catch(() => {}); }
     });

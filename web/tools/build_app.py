@@ -21,7 +21,7 @@ a = ap.parse_args()
 def script(code, name=''):
     return f'<script>/* {name} */\n' + code.replace('</script', '<\\/script') + '\n</script>\n'
 
-SRC = ['src/svgpath.js', 'src/env.js', 'src/inflate.js', 'src/wizard.js', 'src/face.js', 'src/overlay.js', 'src/scareart.js', 'src/render.js', 'src/app.js']
+SRC = ['src/svgpath.js', 'src/env.js', 'src/inflate.js', 'src/merlin.js', 'src/face.js', 'src/overlay.js', 'src/scareart.js', 'src/render.js', 'src/app.js']
 mp = root / 'vendor/mediapipe'
 icon = root.parent / 'Assets/mark-light-color.svg'
 
@@ -30,7 +30,7 @@ def page(offline, pre=''):
     head = ['<!doctype html><html lang="en"><head><meta charset="utf-8">',
             '<meta name="viewport" content="width=device-width,initial-scale=1">',
             '<title>LM Mask</title>',
-            '<meta name="description" content="A Halloween face filter for video calls: become the inflatable LM logo or the wizard, then scare everyone.">']
+            '<meta name="description" content="A Halloween face filter for video calls: become the inflatable LM logo or Merlin, then scare everyone.">']
     if icon.exists():
         head.append('<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,' + base64.b64encode(icon.read_bytes()).decode() + '">')
     parts = head + ['<style>' + (root / 'src/ui.css').read_text() + '</style></head><body>', (root / 'src/body.html').read_text()]

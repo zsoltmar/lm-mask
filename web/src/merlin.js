@@ -1,6 +1,6 @@
-// The wizard mascot: a soft lavender bean head that swallows your whole head, a starry wizard hat, gold
+// Merlin, the mascot: a soft lavender bean head that swallows your whole head, a starry hat, gold
 // aviators that hug the face and react to your eyes and brows, and your real mouth where its smile goes.
-// Scare turns it into a dark wizard (the renderer adds the laser eyes and the lightning).
+// The scare turns him into Dark Merlin (the renderer adds the laser eyes and the lightning).
 //
 // Units: 1 = your inter-ocular distance. Head space: origin between your eyes, x right (screen right when
 // facing the camera), y up, z toward the camera.
@@ -60,7 +60,7 @@
       clearcoat: 0.25, clearcoatRoughness: 0.35,
     });
     const mesh = new THREE.Mesh(g, m);
-    mesh.name = 'wizHead';
+    mesh.name = 'merlinHead';
     mesh.receiveShadow = true;
     return mesh;
   }
@@ -130,7 +130,7 @@
   }
   function makeHat() {
     const grp = new THREE.Group();
-    grp.name = 'wizHat';
+    grp.name = 'merlinHat';
     const cone = sweptCone();
     const { map, stars } = hatTextures(cone.len);
     const coneMat = new THREE.MeshPhysicalMaterial({
@@ -184,7 +184,7 @@
   }
   function makeGlasses() {
     const grp = new THREE.Group();
-    grp.name = 'wizGlasses';
+    grp.name = 'merlinGlasses';
     const gold = new THREE.MeshPhysicalMaterial({ color: 0xf0c25a, metalness: 1, roughness: 0.2, clearcoat: 0.5, clearcoatRoughness: 0.12 });
     const lensMap = lensTexture();
     const lensMat = new THREE.MeshPhysicalMaterial({ map: lensMap, emissiveMap: lensMap, emissive: new THREE.Color(0xffffff), emissiveIntensity: 0.48, roughness: 0.24, metalness: 0.05, clearcoat: 0.8, clearcoatRoughness: 0.22, envMapIntensity: 0.3, side: THREE.DoubleSide });
@@ -286,7 +286,7 @@
 
   // ------------------------------------------------------------------ build
   function build() {
-    const head = new THREE.Group(); head.name = 'wizHeadRig';
+    const head = new THREE.Group(); head.name = 'merlinHeadRig';
     const headMesh = makeHead();
     const hat = makeHat();
     const glasses = makeGlasses();
@@ -301,7 +301,7 @@
       get lensCenters() { return glasses.centres(); },
       get lensBottoms() { return glasses.bottoms(); },
       expression(state, dt) { glasses.update(state && state.present ? state.exA : null, state && state.present ? state.exB : null, dt); },
-      // 0 = friendly wizard … 1 = dark wizard
+      // 0 = friendly Merlin … 1 = Dark Merlin
       setDark(level, t) {
         const k = Math.max(0, Math.min(1, level));
         if (Math.abs(k - lastLevel) > 1e-3) {
@@ -318,5 +318,5 @@
     };
   }
 
-  window.LMWizard = { build, headSurfaceZ };
+  window.LMMerlin = { build, headSurfaceZ };
 })(window.THREE);

@@ -155,7 +155,7 @@ class Overlay {
       this.fxCtx = this.fx.getContext('2d');
       this.fxDirty = false;
       this.W = W; this.H = H;
-      this.cfg = { eyeScale: 1.2, mouthScale: 2.15, mouthPad: 1.07, wizardMouth: 0.6, soft: 0.5 };
+      this.cfg = { eyeScale: 1.2, mouthScale: 2.15, mouthPad: 1.07, merlinMouth: 0.6, soft: 0.5 };
       this.patch = null;
     }
 
@@ -170,7 +170,7 @@ class Overlay {
       this.patch = null;
       if (!state || !state.present) return;
       ctx.globalCompositeOperation = 'lighter';
-      if (opts.character === 'wizard') { this.drawMouth(state, mouthDst, this.cfg.mouthScale * this.cfg.wizardMouth); return; }
+      if (opts.character === 'merlin') { this.drawMouth(state, mouthDst, this.cfg.mouthScale * this.cfg.merlinMouth); return; }
       if (!sc.on) this.drawNormal(state, mouthDst);
       else this.drawScare(state, sc, project, anchors, mouthDst);
     }
@@ -256,9 +256,9 @@ class Overlay {
       }
     }
 
-    // ---------------------------------------------------------------- wizard: laser eyes + lightning
+    // ---------------------------------------------------------------- Merlin: laser eyes + lightning
     // info: { lenses: [[x,y]×2], ends: [[x,y]×2], bottoms: [[[x,y]…]×2], iod (px), k (0..1), t }
-    drawWizardFx(info) {
+    drawMerlinFx(info) {
       const ctx = this.fxCtx;
       ctx.globalCompositeOperation = 'source-over';
       ctx.clearRect(0, 0, this.W, this.H);
