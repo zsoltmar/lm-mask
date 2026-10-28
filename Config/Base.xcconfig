@@ -1,0 +1,3 @@
+// Shared build settings. Optional include: build still configures if the file is missing,
+// but signing will fail until you create it (cp Local.xcconfig.example Local.xcconfig).
+#include? "Local.xcconfig"

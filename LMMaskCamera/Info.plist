@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>LM Halloween Cam</string>
+	<key>CFBundlePackageType</key>
+	<string>SYSX</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+	<!-- "<TeamID>.group.com.lawmatics.lmmask". $(TeamIdentifierPrefix) expands to "<TeamID>." at build
+	     time from DEVELOPMENT_TEAM, so no manual edit is needed. Must be prefixed by an app group
+	     the extension holds in its entitlements. -->
+	<!-- Required on the EXTENSION's plist (not only the app's) for the cmio category; the system shows it
+	     in the approval prompt. -->
+	<key>NSSystemExtensionUsageDescription</key>
+	<string>LM Mask adds the “LM Halloween Cam” virtual camera so the logo mask can appear in Zoom.</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Lawmatics</string>
+	<key>CMIOExtension</key>
+	<dict>
+		<key>CMIOExtensionMachServiceName</key>
+		<string>$(TeamIdentifierPrefix)group.com.lawmatics.lmmask</string>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,91 @@
+# XcodeGen spec. Run `xcodegen generate` in the repo root to produce LMMask.xcodeproj.
+# Schema: https://github.com/yonaskolb/XcodeGen/blob/master/Docs/ProjectSpec.md
+name: LMMask
+options:
+  bundleIdPrefix: com.lawmatics
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+  xcodeVersion: "16.0"
+configFiles:
+  Debug: Config/Base.xcconfig
+  Release: Config/Base.xcconfig
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "2"
+    ENABLE_HARDENED_RUNTIME: YES
+    CODE_SIGN_STYLE: Automatic
+targets:
+  LMMask:
+    type: application
+    platform: macOS
+    sources:
+      - path: LMMask
+        excludes: ["Info.plist", "*.entitlements"]
+      - path: Shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.lawmatics.lmmask
+        PRODUCT_NAME: LM Mask
+        # PRODUCT_NAME has a space, which would make the module "LM_Mask"; tests use `@testable import LMMask`.
+        PRODUCT_MODULE_NAME: LMMask
+        INFOPLIST_FILE: LMMask/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        CODE_SIGN_ENTITLEMENTS: LMMask/LMMask.entitlements
+        ASSETCATALOG_COMPILER_APPICON_NAME: ""
+    dependencies:
+      # XcodeGen embeds system-extension targets into
+      # Contents/Library/SystemExtensions (SYSTEM_EXTENSIONS_FOLDER_PATH).
+      # If your XcodeGen version does not, see README-dev.md "Fallback".
+      - target: LMMaskCamera
+        embed: true
+        codeSign: true
+        link: false
+  LMMaskCamera:
+    type: system-extension
+    platform: macOS
+    sources:
+      - path: LMMaskCamera
+        excludes: ["Info.plist", "*.entitlements"]
+      - path: Shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.lawmatics.lmmask.camera
+        # Apple's sample names the .systemextension bundle after its bundle id.
+        PRODUCT_NAME: $(PRODUCT_BUNDLE_IDENTIFIER)
+        INFOPLIST_FILE: LMMaskCamera/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        CODE_SIGN_ENTITLEMENTS: LMMaskCamera/LMMaskCamera.entitlements
+        SKIP_INSTALL: YES
+  LMMaskTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: LMMaskTests
+    dependencies:
+      - target: LMMask
+        link: false
+        embed: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.lawmatics.lmmask.tests
+        GENERATE_INFOPLIST_FILE: YES
+        # Hosted by the app. Spelled out because the app's PRODUCT_NAME contains a space.
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/LM Mask.app/Contents/MacOS/LM Mask
+        BUNDLE_LOADER: $(TEST_HOST)
+schemes:
+  LMMask:
+    build:
+      targets:
+        LMMask: all
+        LMMaskCamera: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - LMMaskTests
